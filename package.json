@@ -10,14 +10,8 @@
     "react-scripts": "1.1.4",
     "redux": "^4.0.0"
   },
-  "lint-staged": {
-    "src/**/*.{js,jsx,json,css}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
-  },
   "scripts": {
-    "precommit": "lint-staged",
+    "precommit": "pretty-quick --staged",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
@@ -26,6 +20,7 @@
   "devDependencies": {
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.0",
-    "prettier": "^1.13.5"
+    "prettier": "^1.13.5",
+    "pretty-quick": "^1.6.0"
   }
 }
