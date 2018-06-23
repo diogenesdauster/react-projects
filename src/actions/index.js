@@ -1,3 +1,5 @@
+import fetch from "cross-fetch";
+
 export const SELECT_SUBREDDIT = "SELECT_SUBREDDIT";
 export const INVALIDATE_SUBREDDIT = "INVALIDATE_SUBREDDIT";
 export const REQUEST_POSTS = "REQUEST_POSTS";
@@ -31,5 +33,17 @@ function receivePosts(subreddit, json) {
     subreddit,
     posts: json.children.map(child => child.data),
     receivedAt: Date.now()
+  };
+}
+
+export function fetchPosts(subreddit) {
+  return function(dispatch) {
+    dispatch(resquestPosts(subreddit));
+    return fetch(`https://www.reddit.com/r/${subreddit}.json`)
+      .then(
+        response => response.json(),
+        error => console.log("An error occurred.", error)
+      )
+      .then(json => dispatch(receivePosts(subreddit, json)));
   };
 }
