@@ -31,7 +31,7 @@ function receivePosts(subreddit, json) {
   return {
     type: RECEVIVE_POSTS,
     subreddit,
-    posts: json.children.map(child => child.data),
+    posts: json.data.children.map(child => child.data),
     receivedAt: Date.now()
   };
 }
