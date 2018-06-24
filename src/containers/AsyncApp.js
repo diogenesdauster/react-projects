@@ -17,14 +17,14 @@ class AsyncApp extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, selectSubreddit } = this.props;
-    dispatch(fetchPostsIfNeeded(selectSubreddit));
+    const { dispatch, selectedSubreddit } = this.props;
+    dispatch(fetchPostsIfNeeded(selectedSubreddit));
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.selectSubreddit !== prevProps.selectSubreddit) {
-      const { dispatch, selectSubreddit } = this.props;
-      dispatch(fetchPostsIfNeeded(selectSubreddit));
+    if (this.props.selectedSubreddit !== prevProps.selectedSubreddit) {
+      const { dispatch, selectedSubreddit } = this.props;
+      dispatch(fetchPostsIfNeeded(selectedSubreddit));
     }
   }
 
@@ -36,17 +36,17 @@ class AsyncApp extends Component {
   handleRefreshClick(e) {
     e.preventDefault();
 
-    const { dispatch, selectSubreddit } = this.props;
-    dispatch(invalidateSubreddit(selectSubreddit));
-    dispatch(fetchPostsIfNeeded(selectSubreddit));
+    const { dispatch, selectedSubreddit } = this.props;
+    dispatch(invalidateSubreddit(selectedSubreddit));
+    dispatch(fetchPostsIfNeeded(selectedSubreddit));
   }
 
   render() {
-    const { selectSubreddit, posts, isFetching, lastUpdated } = this.props;
+    const { selectedSubreddit, posts, isFetching, lastUpdated } = this.props;
     return (
       <div>
         <Picker
-          value={selectSubreddit}
+          value={selectedSubreddit}
           onChange={this.handleChange}
           options={["reactjs", "frontend", "android"]}
         />
@@ -72,8 +72,8 @@ class AsyncApp extends Component {
   }
 }
 
-AsyncApp.PropTypes = {
-  selectSubreddit: PropTypes.string.isRequired,
+AsyncApp.propTypes = {
+  selectedSubreddit: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
   lastUpdated: PropTypes.number,
@@ -81,16 +81,16 @@ AsyncApp.PropTypes = {
 };
 
 function mapStateToProps(state) {
-  const { selectSubreddit, postsBySubreddit } = state;
+  const { selectedSubreddit, postsBySubreddit } = state;
   const { isFetching, lastUpdated, items: posts } = postsBySubreddit[
-    selectSubreddit
+    selectedSubreddit
   ] || {
     isFetching: true,
     items: []
   };
 
   return {
-    selectSubreddit,
+    selectedSubreddit,
     posts,
     isFetching,
     lastUpdated
